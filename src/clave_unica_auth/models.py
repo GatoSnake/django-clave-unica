@@ -1,6 +1,9 @@
 from django.db import models
+from django.core.cache import cache
 
 import uuid
+import requests
+import json
 
 # Create your models here.
 class ClaveUnicaLogin(models.Model):
@@ -15,4 +18,8 @@ class ClaveUnicaLogin(models.Model):
 
     def __str__(self):
         return str(self.state)
-        
+    
+    
+    def save_in_cache(self, key, data, timeout=60 * 5):
+        """guarda dato en cache"""
+        cache.set(key, data, timeout)

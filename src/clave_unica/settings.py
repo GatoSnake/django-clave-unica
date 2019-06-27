@@ -27,16 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-##BACKEND CACHE
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': 'C:/memcached.sock',
-        'OPTIONS': {
-            'MAX_ENTRIES': 99999999999999999
-        }
-    }
-}
+# Clave Unica Settings
+CLAVEUNICA_CLIENT_ID = ''
+CLAVEUNICA_CLIENT_SECRET = ''
+CLAVEUNICA_REDIRECT_URI = 'https://local.agilesigner.com/testclaveunica/callback'
 
 
 # Application definition
