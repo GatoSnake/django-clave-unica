@@ -25,7 +25,18 @@ SECRET_KEY = ')%=l=#k-coptt%+0&@0@vo&1))t3$i$2zu#cr)tnmft=exqz8$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'local.agilesigner.com']
+ALLOWED_HOSTS = ['*']
+
+##BACKEND CACHE
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': 'C:/memcached.sock',
+        'OPTIONS': {
+            'MAX_ENTRIES': 99999999999999999
+        }
+    }
+}
 
 
 # Application definition
@@ -37,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'clave_unica_auth',
 ]
 
 MIDDLEWARE = [
