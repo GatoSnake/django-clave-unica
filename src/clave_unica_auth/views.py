@@ -23,40 +23,30 @@ def redirect_from_clave_unica(request):
     # verificando state en cache, si existe entonces no ha expirado el state
     if cache_data is None:
         return HttpResponse('State expired')
-    cache.delete(state)
-
-    cuLogin = ClaveUnicaLogin()
-    cuLogin.state = state
-    cuLogin.authorization_code = code
-    cuLogin.remote_addr = cache_data.get('remote_addr')
-
-
-    # access_token = resp.json().get('access_token')
-    # cuLogin.access_token = access_token
-    # cuLogin.save()
-
+    #cache.delete(state)
+    #crea instancia ClaveUnicaLogin
+    claveUnicaLogin = ClaveUnicaLogin()
+    claveUnicaLogin.state = state
+    claveUnicaLogin.authorization_code = code
+    claveUnicaLogin.remote_addr = cache_data.get('remote_addr')
     try:
+        #obtener authorization_code
         access_token_json = oauth2_claveunica.request_authorization_code(
             settings.get('CLAVEUNICA_TOKEN_URI'),
             settings.get('CLAVEUNICA_CLIENT_ID'),
             settings.get('CLAVEUNICA_CLIENT_SECRET'),
             settings.get('CLAVEUNICA_REDIRECT_URI'),
-            code,
-            state
+            claveUnicaLogin.authorization_code,
+            claveUnicaLogin.state
         )
+        claveUnicaLogin.access_token = access_token_json.get('access_token')
+        #obtener info usuario
+        info_user_json = oauth2_claveunica.request_info_user(
+            settings.get('CLAVEUNICA_USERINFO_URI'),
+            claveUnicaLogin.access_token
+        )
+        claveUnicaLogin.save()
+        return HttpResponse(info_user_json)
     except Exception as e:
-        return HttpResponse(e.__cause__)
-
-    #obtener info usuario
-    url = 'https://accounts.claveunica.gob.cl/openid/userinfo/'
-    headers = {
-        'Authorization': 'Bearer {access_token}'.format(access_token=access_token),
-        'Accept': 'application/json',
-        'User-Agent': 'My User Agent 1.0'
-    }
-    resp = requests.post(url, headers=headers)
-    if resp.status_code != 200:
-        return HttpResponse('Error code: {status} en obtener info user'.format(status=resp.status_code))
-    print(resp)
-
-    return HttpResponse(resp)
+        claveUnicaLogin.save()
+        return HttpResponse(e)
