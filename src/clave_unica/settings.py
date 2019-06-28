@@ -27,10 +27,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+
 # Clave Unica Settings
+
 CLAVEUNICA_CLIENT_ID = ''
 CLAVEUNICA_CLIENT_SECRET = ''
-CLAVEUNICA_REDIRECT_URI = 'https://local.agilesigner.com/testclaveunica/callback'
+CLAVEUNICA_REDIRECT_URI = ''
 
 
 # Application definition

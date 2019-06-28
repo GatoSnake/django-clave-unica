@@ -2,11 +2,10 @@ from urllib.parse import urlencode
 
 import uuid
 import requests
-import json
 
 def generate_state():
     """genera un random UUIDv4 para el parametro state"""
-    return uuid.uuid4()
+    return str(uuid.uuid4())
 
 def encode_dict_to_uri(params):
     """encodea un diccionario a formato URI"""
@@ -38,23 +37,35 @@ def get_params_access_token(client_id, client_secret, redirect_uri, code, state=
     }
 
 def get_headers_authorization_code():
+    """obtiene los headers para request authorization_code"""
     return {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Accept': 'application/json',
         'User-Agent': 'My User Agent 1.0'
     }
 
+def get_headers_bearer_token(access_token):
+    """obtiene los headers para autenticacion bearer oauth2"""
+    return {
+        'Authorization': 'Bearer {access_token}'.format(access_token=access_token),
+        'Accept': 'application/json',
+        'User-Agent': 'My User Agent 1.0'
+    }
+
 def get_url_login_claveunica(url, client_id, redirect_uri, state=uuid.uuid4()):
     """obtiene la url que redirige a clave unica para login"""
-    print(get_url_params_authorization_code(client_id, redirect_uri, state))
     return join_url_with_params(url, get_url_params_authorization_code(client_id, redirect_uri, state))
 
 def request_authorization_code(url, client_id, client_secret, redirect_uri, code, state=uuid.uuid4()):
     """solicitud POST authorization_code a Clave Unica"""
-    print('HACIENDO REQUEST POST!')
-    resp = requests.post(url, data=get_params_access_token(), headers=get_headers_authorization_code())
-    print(resp.status_code)
+    resp = requests.post(url, data=get_params_access_token(client_id, client_secret, redirect_uri, code, state), headers=get_headers_authorization_code())
     if resp.status_code != 200:
-        raise Exception('Error code: {status_code} en intercambio token'.format(status_code=resp.status_code))
+        raise Exception('HTTP Status Error: {status_code}. Error al obtener authorization_code de Clave Unica.'.format(status_code=resp.status_code))
     return resp.json()
     
+def request_info_user(url, access_token):
+    """solicitud POST para obtencion de informacion del usuario en Clave Unica"""
+    resp = requests.post(url, headers=get_headers_bearer_token(access_token))
+    if resp.status_code != 200:
+        raise Exception('HTTP Status Error: {status_code}. Error al obtener infouser de Clave Unica.'.format(status_code=resp.status_code))
+    return resp.json()
