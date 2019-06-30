@@ -16,7 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from .views import index, logout
+
 urlpatterns = [
+    path('', index, name='clave_unica_index'),
+    path('testclaveunica/', include('clave_unica_auth.urls')),
+    path('logout/', logout, name='clave_unica_logout'),
     path('admin/', admin.site.urls),
-    path('testclaveunica/', include('clave_unica_auth.urls'))
 ]
