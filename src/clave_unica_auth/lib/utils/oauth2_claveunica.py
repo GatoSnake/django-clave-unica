@@ -60,12 +60,12 @@ def request_authorization_code(url, client_id, client_secret, redirect_uri, code
     """solicitud POST authorization_code a Clave Unica"""
     resp = requests.post(url, data=get_params_access_token(client_id, client_secret, redirect_uri, code, state), headers=get_headers_authorization_code())
     if resp.status_code != 200:
-        raise Exception('HTTP Status Error: {status_code}. Error al obtener authorization_code de Clave Unica.'.format(status_code=resp.status_code))
+        raise Exception('Clave Unica http status error: {status_code}. Error al obtener authorization_code de Clave Unica.'.format(status_code=resp.status_code))
     return resp.json()
     
 def request_info_user(url, access_token):
     """solicitud POST para obtencion de informacion del usuario en Clave Unica"""
     resp = requests.post(url, headers=get_headers_bearer_token(access_token))
     if resp.status_code != 200:
-        raise Exception('HTTP Status Error: {status_code}. Error al obtener infouser de Clave Unica.'.format(status_code=resp.status_code))
+        raise Exception('Clave Unica http status error: {status_code}. Error al obtener infouser de Clave Unica.'.format(status_code=resp.status_code))
     return resp.json()
