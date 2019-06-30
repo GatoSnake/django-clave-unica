@@ -30,9 +30,6 @@ class PersonClaveUnica(models.Model):
     def __str__(self):
         return str(str(self.run_num) + '-' + self.run_dv)
     
-    # def __init__(self):
-    #     pass
-    
     def parse_json(self, info_user_json):
         """parsea json a datos del modelo PersonClaveUnica"""
         self.run_type = info_user_json['RolUnico']['tipo']

@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 from django.core.cache import cache
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 
 from .lib.utils import oauth2_claveunica
 from .models import LoginClaveUnica, PersonClaveUnica
@@ -57,10 +59,10 @@ def redirect_from_clave_unica(request):
         }
         return render(request, 'clave_unica_auth/error.html', context)
     
+    loginClaveUnica.completed = True
+    loginClaveUnica.save()
+    username = str(info_user_json['RolUnico']['numero'])+'-'+str(info_user_json['RolUnico']['DV'])
     try:
-        loginClaveUnica.completed = True
-        loginClaveUnica.save()
-        username = str(info_user_json['RolUnico']['numero'])+'-'+str(info_user_json['RolUnico']['DV'])
         user = User.objects.get(username = username)
     except User.DoesNotExist:
         if settings.get('CLAVEUNICA_AUTO_CREATE_USER'):
@@ -77,5 +79,12 @@ def redirect_from_clave_unica(request):
                 'description': 'El usuario no se encuentra actualmente registrado.',
             }
             return render(request, 'clave_unica_auth/error.html', context)
-    return HttpResponse("OK !")
-
+    if user is not None:
+        login(request, user)
+        return HttpResponseRedirect(reverse('clave_unica_index'))
+    else:
+        context = {
+            'error': 'Error en autenticacion',
+            'description': 'No se ha logrado autenticar el usuario.',
+        }
+        return render(request, 'clave_unica_auth/error.html', context)
