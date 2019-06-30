@@ -33,10 +33,15 @@ class ClaveUnicaSettings():
         return settings.CLAVEUNICA_USERINFO_URI if hasattr(settings, 'CLAVEUNICA_USERINFO_URI') else 'https://accounts.claveunica.gob.cl/openid/userinfo'
 
     @property
-    def CLAVEUNICA_TIMEOUT_CACHE(self):
+    def CLAVEUNICA_STATE_TIMEOUT(self):
         """OPTIONAL. Tiempo que dura el cache que guarda el parametro STATE antes de que expire en la autenticacion. Por defecto: 30 min"""
-        return settings.CLAVEUNICA_TIMEOUT_CACHE if hasattr(settings, 'CLAVEUNICA_TIMEOUT_CACHE') else 60 * 30
-
+        return settings.CLAVEUNICA_STATE_TIMEOUT if hasattr(settings, 'CLAVEUNICA_STATE_TIMEOUT') else (60 * 30)
+    
+    @property
+    def CLAVEUNICA_AUTO_CREATE_USER(self):
+        """OPTIONAL. Crea automaticamente al usuario en BD. Defeault: true"""
+        return settings.CLAVEUNICA_AUTO_CREATE_USER if hasattr(settings, 'CLAVEUNICA_AUTO_CREATE_USER') else True
+    
 claveunica_settings = ClaveUnicaSettings()
 
 def get(name):
