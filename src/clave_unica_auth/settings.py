@@ -19,9 +19,26 @@ class ClaveUnicaSettings():
     @property
     def CLAVEUNICA_URL_LOGIN(self):
         """OPTIONAL.\n
+        DEFAULT: https://accounts.claveunica.gob.cl/openid/authorize\n
         Login hacia Clave Unica
         """
         return settings.CLAVEUNICA_URL_LOGIN if hasattr(settings, 'CLAVEUNICA_URL_LOGIN') else 'https://accounts.claveunica.gob.cl/openid/authorize'
+
+    @property
+    def CLAVEUNICA_URL_LOGOUT(self):
+        """OPTIONAL.\n
+        DEFAULT: https://api.claveunica.gob.cl/api/v1/accounts/app/logout\n
+        Logout de Clave Unica. Esto se ejecuta en el navegador del cliente para borrar cookies de Clave Unica.
+        """
+        return settings.CLAVEUNICA_URL_LOGOUT if hasattr(settings, 'CLAVEUNICA_URL_LOGOUT') else 'https://api.claveunica.gob.cl/api/v1/accounts/app/logout'
+
+    @property
+    def CLAVEUNICA_REMEMBER_LOGIN(self):
+        """OPTIONAL.\n
+        DEFAULT: True\n
+        Recuerda la autenticacion del usuario de Clave Unica. En caso de siempre solicitar las credenciales de clave unica, setear False
+        """
+        return settings.CLAVEUNICA_REMEMBER_LOGIN if hasattr(settings, 'CLAVEUNICA_REMEMBER_LOGIN') else True
 
     @property
     def CLAVEUNICA_REDIRECT_URI(self):
