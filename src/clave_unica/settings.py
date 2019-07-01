@@ -34,6 +34,7 @@ CLAVEUNICA_CLIENT_ID = ''
 CLAVEUNICA_CLIENT_SECRET = ''
 CLAVEUNICA_REDIRECT_URI = ''
 CLAVEUNICA_AUTO_CREATE_USER = True
+CLAVEUNICA_REMEMBER_LOGIN = True
 
 
 # Application definition
@@ -63,7 +64,7 @@ ROOT_URLCONF = 'clave_unica.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

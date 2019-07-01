@@ -3,8 +3,6 @@ from django.core.cache import cache
 from django.contrib.auth.models import User
 
 import uuid
-import requests
-import json
 
 # Create your models here.
 class LoginClaveUnica(models.Model):

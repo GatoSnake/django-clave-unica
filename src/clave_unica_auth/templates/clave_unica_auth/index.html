@@ -3,7 +3,11 @@
     <p><strong>Nombre:</strong> {{user.first_name}}</p>
     <p><strong>Apellidos:</strong> {{user.last_name}}</p>
     <p><strong>RUN:</strong> {{user.personClaveUnica.run_type}}</p>
-    <a href="{% url 'clave_unica_logout' %}">Cerrar sesion</a>
+    <a href="{% url 'clave_unica_auth_logout' %}">Cerrar sesion</a>
+    {% if url_logout %}
+        <iframe src="{{url_logout}}" style="display: none;"></iframe>
+    {% endif %}
+    
 {% else %}
     <h3>Usuario no autenticado</h3>
     <a href="{% url 'clave_unica_auth_redirect' %}">Iniciar sesion en Clave Unica</a>

@@ -3,20 +3,31 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.core.cache import cache
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 from .lib.utils import oauth2_claveunica
 from .models import LoginClaveUnica, PersonClaveUnica
 from clave_unica_auth import settings
 
+def claveunica_index(request):
+    context = {}
+    if request.user.is_authenticated:
+        if not settings.get('CLAVEUNICA_REMEMBER_LOGIN'):
+            context = {'url_logout': settings.get('CLAVEUNICA_URL_LOGOUT')}
+    return render(request, 'clave_unica_auth/index.html', context)
+
+def claveunica_logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('clave_unica_auth_index'))
+
 # Create your views here.
-def redirect_to_clave_unica(request):
-    """Redirect a clave unica"""
+def claveunica_login(request):
+    """Redirect a Clave Unica"""
     state = oauth2_claveunica.generate_state()
     cache.set(state, { 'remote_addr': request.META.get('REMOTE_ADDR') }, settings.get('CLAVEUNICA_STATE_TIMEOUT'))
     return redirect(oauth2_claveunica.get_url_login_claveunica(settings.get('CLAVEUNICA_URL_LOGIN'), settings.get('CLAVEUNICA_CLIENT_ID'), settings.get('CLAVEUNICA_REDIRECT_URI'), state))
 
-def redirect_from_clave_unica(request):
+def claveunica_callback(request):
     """Intercambio authorization_code a access_token y obtener info de usuario"""
     state = request.GET.get('state')
     code = request.GET.get('code')
@@ -81,7 +92,7 @@ def redirect_from_clave_unica(request):
             return render(request, 'clave_unica_auth/error.html', context)
     if user is not None:
         login(request, user)
-        return HttpResponseRedirect(reverse('clave_unica_index'))
+        return HttpResponseRedirect(reverse('clave_unica_auth_index'))
     else:
         context = {
             'error': 'Error en autenticacion',
