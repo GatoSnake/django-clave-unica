@@ -4,10 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-<<<<<<< HEAD
 pylint = "*"
-=======
->>>>>>> 3b2e62e599604a5321ec39243eff4603fadd4315
 
 [packages]
 django = "==2.2.2"
