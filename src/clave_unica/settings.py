@@ -27,14 +27,19 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+LOGIN_URL = '/testclaveunica/login'
 
 # Clave Unica Settings
 
-CLAVEUNICA_CLIENT_ID = ''
-CLAVEUNICA_CLIENT_SECRET = ''
-CLAVEUNICA_REDIRECT_URI = ''
-CLAVEUNICA_AUTO_CREATE_USER = True
-CLAVEUNICA_REMEMBER_LOGIN = True
+CLAVEUNICA_CLIENT_ID = '703b9277e46e42b4a54e674097e3160d'
+CLAVEUNICA_CLIENT_SECRET = '31386af37d7644eb9b95de343e4ebfed'
+CLAVEUNICA_REDIRECT_URI = 'https://local.agilesigner.com/testclaveunica/callback'
+CLAVEUNICA_PATH_LOGIN = ''
+#CLAVEUNICA_PATH_REDIRECT = 'callback/'
+#CLAVEUNICA_PATH_SUCCESS_LOGIN = ''
+#CLAVEUNICA_HTML_ERROR = 'error.html'
+#CLAVEUNICA_AUTO_CREATE_USER = True
+CLAVEUNICA_REMEMBER_LOGIN = False
 
 
 # Application definition
@@ -64,7 +69,7 @@ ROOT_URLCONF = 'clave_unica.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
