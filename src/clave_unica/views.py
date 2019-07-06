@@ -12,9 +12,8 @@ def index(request):
 @login_required
 def home(request):
     context = {}
-    if request.user.is_authenticated:
-        if not cu_settings.get('CLAVEUNICA_REMEMBER_LOGIN'):
-            context = {'url_logout': cu_settings.get('CLAVEUNICA_URL_LOGOUT')}
+    if not cu_settings.get('CLAVEUNICA_REMEMBER_LOGIN'):
+        context = {'url_logout': cu_settings.get('CLAVEUNICA_URL_LOGOUT')}
     return render(request, 'home.html', context)
 
 def logout(request):
