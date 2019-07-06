@@ -1,24 +1,11 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
-from django.urls import reverse
 from django.core.cache import cache
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import login
 
 from .lib.utils import oauth2_claveunica
 from .models import LoginClaveUnica, PersonClaveUnica
 from clave_unica_auth import settings
-
-def claveunica_index(request):
-    context = {}
-    if request.user.is_authenticated:
-        if not settings.get('CLAVEUNICA_REMEMBER_LOGIN'):
-            context = {'url_logout': settings.get('CLAVEUNICA_URL_LOGOUT')}
-    return render(request, 'clave_unica_auth/index.html', context)
-
-def claveunica_logout(request):
-    logout(request)
-    return HttpResponseRedirect(reverse('clave_unica_auth_index'))
 
 # Create your views here.
 def claveunica_login(request):
@@ -38,7 +25,7 @@ def claveunica_callback(request):
             'error': 'State expirado',
             'description': 'El parametro state ha expirado. Por favor, vuelva a iniciar sesion.',
         }
-        return render(request, 'clave_unica_auth/error.html', context)
+        return render(request, settings.get('CLAVEUNICA_HTML_ERROR'), context)
     cache.delete(state)
     #crea instancia loginClaveUnica
     loginClaveUnica = LoginClaveUnica()
@@ -92,7 +79,7 @@ def claveunica_callback(request):
             return render(request, 'clave_unica_auth/error.html', context)
     if user is not None:
         login(request, user)
-        return HttpResponseRedirect(reverse('clave_unica_auth_index'))
+        return redirect(settings.get('CLAVEUNICA_PATH_SUCCESS_LOGIN'))
     else:
         context = {
             'error': 'Error en autenticacion',

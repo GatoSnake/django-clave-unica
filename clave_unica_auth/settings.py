@@ -78,7 +78,44 @@ class ClaveUnicaSettings():
         Crea automaticamente al usuario si no existe en BD.
         """
         return settings.CLAVEUNICA_AUTO_CREATE_USER if hasattr(settings, 'CLAVEUNICA_AUTO_CREATE_USER') else False
-    
+
+    @property
+    def CLAVEUNICA_PATH_LOGIN(self):
+        """OPTIONAL.\n
+        DEFAULT: login/\n
+        Path interno a vista de login
+        """
+        return settings.CLAVEUNICA_PATH_LOGIN if hasattr(settings, 'CLAVEUNICA_PATH_LOGIN') else 'login/'
+
+    @property
+    def CLAVEUNICA_PATH_REDIRECT(self):
+        """OPTIONAL.\n
+        DEFAULT: callback/\n
+        Path url interna redirect desde Clave Unica
+        """
+        return settings.CLAVEUNICA_PATH_REDIRECT if hasattr(settings, 'CLAVEUNICA_PATH_REDIRECT') else 'callback/'
+
+    @property
+    def CLAVEUNICA_PATH_SUCCESS_LOGIN(self):
+        """OPTIONAL.\n
+        DEFAULT: /home/\n
+        Path url interna a la vista cuando el inicio se realiza correctamente
+        """
+        if hasattr(settings, 'CLAVEUNICA_PATH_SUCCESS_LOGIN'):
+            if not settings.CLAVEUNICA_PATH_SUCCESS_LOGIN:
+                return '/'
+            return settings.CLAVEUNICA_PATH_SUCCESS_LOGIN
+        else:
+            return '/home/'
+
+    @property
+    def CLAVEUNICA_HTML_ERROR(self):
+        """OPTIONAL.\n
+        DEFAULT: clave_unica_auth/error.html\n
+        Path html error
+        """
+        return settings.CLAVEUNICA_HTML_ERROR if hasattr(settings, 'CLAVEUNICA_HTML_ERROR') else 'clave_unica_auth/error.html'
+
 claveunica_settings = ClaveUnicaSettings()
 
 def get(name):

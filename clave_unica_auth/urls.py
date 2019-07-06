@@ -1,10 +1,9 @@
 from django.urls import path
 
-from .views import claveunica_index, claveunica_logout, claveunica_login, claveunica_callback
+from clave_unica_auth import settings
+from .views import claveunica_login, claveunica_callback
 
 urlpatterns = [
-    path('', claveunica_index, name='clave_unica_auth_index'),
-    path('logout/', claveunica_logout, name='clave_unica_auth_logout'),
-    path('login/', claveunica_login, name='clave_unica_auth_redirect'),
-    path('callback/', claveunica_callback, name='clave_unica_auth_callback'),
+    path(settings.get('CLAVEUNICA_PATH_LOGIN'), claveunica_login, name='clave_unica_auth_login'),
+    path(settings.get('CLAVEUNICA_PATH_REDIRECT'), claveunica_callback, name='clave_unica_auth_callback'),
 ]
