@@ -56,11 +56,8 @@ def claveunica_callback(request):
             'description': e,
         }
         return render(request, 'clave_unica_auth/error.html', context)
-    
-    loginClaveUnica.completed = True
-    loginClaveUnica.save()
-    username = str(info_user_json['RolUnico']['numero'])+'-'+str(info_user_json['RolUnico']['DV'])
     try:
+        username = str(info_user_json['RolUnico']['numero'])+'-'+str(info_user_json['RolUnico']['DV'])
         user = User.objects.get(username = username)
     except User.DoesNotExist:
         if settings.get('CLAVEUNICA_AUTO_CREATE_USER'):
@@ -72,6 +69,7 @@ def claveunica_callback(request):
             personClaveUnica.user = user
             personClaveUnica.save()
         else:
+            loginClaveUnica.save()
             context = {
                 'error': 'Usuario no registrado',
                 'description': 'El usuario no se encuentra actualmente registrado.',
@@ -79,8 +77,12 @@ def claveunica_callback(request):
             return render(request, 'clave_unica_auth/error.html', context)
     if user is not None:
         login(request, user)
+        loginClaveUnica.user = user
+        loginClaveUnica.completed = True
+        loginClaveUnica.save()
         return redirect(settings.get('CLAVEUNICA_PATH_SUCCESS_LOGIN'))
     else:
+        loginClaveUnica.save()
         context = {
             'error': 'Error en autenticacion',
             'description': 'No se ha logrado autenticar el usuario.',
