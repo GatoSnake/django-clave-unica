@@ -6,7 +6,7 @@ import uuid
 
 # Create your models here.
 class LoginClaveUnica(models.Model):
-    user = models.OneToOneField(User, on_delete=models.SET_NULL, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     state = models.UUIDField(default=uuid.uuid4)
     login_date = models.DateTimeField(auto_now=False, auto_now_add=True)
     authorization_code = models.CharField(max_length=120)

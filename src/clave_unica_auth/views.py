@@ -25,7 +25,7 @@ def claveunica_callback(request):
             'error': 'State expirado',
             'description': 'El parametro state ha expirado. Por favor, vuelva a iniciar sesion.',
         }
-        return render(request, settings.get('CLAVEUNICA_HTML_ERROR'), context)
+        return claveunica_error(request, context)
     cache.delete(state)
     #crea instancia loginClaveUnica
     loginClaveUnica = LoginClaveUnica()
@@ -55,7 +55,7 @@ def claveunica_callback(request):
             'error': e.message if hasattr(e, 'message') else 'Error en Clave Unica',
             'description': e,
         }
-        return render(request, 'clave_unica_auth/error.html', context)
+        return claveunica_error(request, context)
     try:
         username = str(info_user_json['RolUnico']['numero'])+'-'+str(info_user_json['RolUnico']['DV'])
         user = User.objects.get(username = username)
@@ -74,7 +74,7 @@ def claveunica_callback(request):
                 'error': 'Usuario no registrado',
                 'description': 'El usuario no se encuentra actualmente registrado.',
             }
-            return render(request, 'clave_unica_auth/error.html', context)
+            return claveunica_error(request, context)
     if user is not None:
         login(request, user)
         loginClaveUnica.user = user
@@ -87,4 +87,10 @@ def claveunica_callback(request):
             'error': 'Error en autenticacion',
             'description': 'No se ha logrado autenticar el usuario.',
         }
-        return render(request, 'clave_unica_auth/error.html', context)
+        return claveunica_error(request, context)
+
+def claveunica_error(request, context={'error': 'Error autenticación', 'description': 'Error en autenticación del usuario.'}):
+    """Error vista clave unica"""
+    if not settings.get('CLAVEUNICA_REMEMBER_LOGIN'):
+        context['url_logout'] = settings.get('CLAVEUNICA_URL_LOGOUT')
+    return render(request, settings.get('CLAVEUNICA_HTML_ERROR'), context)

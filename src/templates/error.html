@@ -1,3 +1,6 @@
 <h1>Error custom</h1>
 <h3>{{ error }}</h3>
 <p>{{ description }}</p>
+{% if url_logout %}
+    <iframe src="{{url_logout}}" style="display: none;"></iframe>
+{% endif %}
