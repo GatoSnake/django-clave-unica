@@ -14,7 +14,7 @@ class Login(models.Model):
     completed = models.BooleanField(default=False)
 
     class Meta:
-        verbose_name_plural ='Login Clave Unica'
+        verbose_name_plural ='Logins'
 
     def __str__(self):
         return str(self.state)

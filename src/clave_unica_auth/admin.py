@@ -21,6 +21,11 @@ class LoginAdmin(admin.ModelAdmin):
     list_display = ('login_date', 'remote_addr', 'user', 'completed')
     readonly_fields = ('state', 'authorization_code', 'login_date', 'remote_addr', 'access_token', 'completed', 'user')
 
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
 
 admin.site.register(Login, LoginAdmin)
 admin.site.unregister(User)
