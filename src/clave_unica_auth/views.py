@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login
 
 from .lib.utils import oauth2_claveunica
-from .models import LoginClaveUnica, PersonClaveUnica
+from .models import Login as LoginClaveUnica, Person as PersonClaveUnica
 from clave_unica_auth import settings
 
 # Create your views here.

@@ -2,9 +2,9 @@
 <p><strong>Nombre:</strong> {{user.first_name}}</p>
 <p><strong>Apellidos:</strong> {{user.last_name}}</p>
 <p><strong>Email:</strong> {{user.email}}</p>
-<p><strong>Tipo:</strong> {{user.personclaveunica.run_type}}</p>
-<p><strong>Num:</strong> {{user.personclaveunica.run_num}}</p>
-<p><strong>DV:</strong> {{user.personclaveunica.run_dv}}</p>
+<p><strong>Tipo:</strong> {{user.person.run_type}}</p>
+<p><strong>Num:</strong> {{user.person.run_num}}</p>
+<p><strong>DV:</strong> {{user.person.run_dv}}</p>
 <a href="{% url 'logout' %}">Cerrar sesion</a>
 {% if url_logout %}
     <iframe src="{{url_logout}}" style="display: none;"></iframe>
