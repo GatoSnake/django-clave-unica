@@ -35,10 +35,10 @@ class ClaveUnicaSettings():
     @property
     def CLAVEUNICA_REMEMBER_LOGIN(self):
         """OPTIONAL.\n
-        DEFAULT: True\n
+        DEFAULT: False\n
         Recuerda la autenticacion del usuario de Clave Unica. En caso de siempre solicitar las credenciales de clave unica, setear False
         """
-        return settings.CLAVEUNICA_REMEMBER_LOGIN if hasattr(settings, 'CLAVEUNICA_REMEMBER_LOGIN') else True
+        return settings.CLAVEUNICA_REMEMBER_LOGIN if hasattr(settings, 'CLAVEUNICA_REMEMBER_LOGIN') else False
 
     @property
     def CLAVEUNICA_REDIRECT_URI(self):
@@ -74,10 +74,10 @@ class ClaveUnicaSettings():
     @property
     def CLAVEUNICA_AUTO_CREATE_USER(self):
         """OPTIONAL.\n
-        DEFAULT: False\n
+        DEFAULT: True\n
         Crea automaticamente al usuario si no existe en BD.
         """
-        return settings.CLAVEUNICA_AUTO_CREATE_USER if hasattr(settings, 'CLAVEUNICA_AUTO_CREATE_USER') else False
+        return settings.CLAVEUNICA_AUTO_CREATE_USER if hasattr(settings, 'CLAVEUNICA_AUTO_CREATE_USER') else True
 
     @property
     def CLAVEUNICA_PATH_LOGIN(self):
