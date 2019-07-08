@@ -1,1 +1,4 @@
 dist
+Pipfile.lock
+*.egg-info
+*.sqlite3
