@@ -4,21 +4,22 @@ from django.contrib.auth.models import User
 
 from .models import Login, Person
 
-# Register your models here.
+admin.site.unregister(User)
 
-# Define an inline admin descriptor for Employee model
-# which acts a bit like a singleton
 class PersonInline(admin.StackedInline):
     model = Person
     can_delete = False
     verbose_name_plural = 'Person'
 
-# Define a new User admin
+@admin.register(User)
 class UserAdmin(BaseUserAdmin):
     inlines = (PersonInline,)
 
+@admin.register(Login)
 class LoginAdmin(admin.ModelAdmin):
     list_display = ('login_date', 'remote_addr', 'user', 'completed')
+    list_filter = ('login_date', 'completed')
+    search_fields = ['remote_addr', 'user__username', 'user__first_name', 'user__last_name']
     readonly_fields = ('state', 'authorization_code', 'login_date', 'remote_addr', 'access_token', 'completed', 'user')
 
     def has_add_permission(self, request):
@@ -26,7 +27,3 @@ class LoginAdmin(admin.ModelAdmin):
 
     def has_change_permission(self, request, obj=None):
         return False
-
-admin.site.register(Login, LoginAdmin)
-admin.site.unregister(User)
-admin.site.register(User, UserAdmin)

@@ -7,7 +7,6 @@ from .lib.utils import oauth2_claveunica
 from .models import Login as LoginClaveUnica, Person as PersonClaveUnica
 from clave_unica_auth import settings
 
-# Create your views here.
 def claveunica_login(request):
     """Redirect a Clave Unica"""
     state = oauth2_claveunica.generate_state()
