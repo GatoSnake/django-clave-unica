@@ -2,6 +2,13 @@
 
 Aplicación Djando que permite la autenticación de los ciudadanos de Chile.
 
+[![GitHub release](https://img.shields.io/github/release/gatosnake/django-clave-unica.svg)](https://github.com/GatoSnake/django-clave-unica/releases/)
+[![GitHub tag](https://img.shields.io/github/tag/gatosnake/django-clave-unica.svg)](https://github.com/GatoSnake/django-clave-unica/tags/)
+[![GitHub license](https://img.shields.io/github/license/gatosnake/django-clave-unica.svg)](https://github.com/GatoSnake/django-clave-unica/blob/master/LICENSE)
+[![Github all releases](https://img.shields.io/github/downloads/gatosnake/django-clave-unica/total.svg)](https://github.com/GatoSnake/django-clave-unica/releases/)
+
+
+
 ## Instalación
 
 1. Agrega la aplicación `clave_unica_auth` en el parámetro INSTALLED_APPS de tu archivo `settings.py`, 
