@@ -17,7 +17,7 @@ class Login(models.Model):
         verbose_name_plural ='Login'
 
     def __str__(self):
-        return str(self.state)
+        return str(self.state) + ' | ' +  str(self.login_date) + (' | ' + str(self.user) if self.user is not None else '')
 
 class Person(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

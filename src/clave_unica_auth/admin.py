@@ -19,7 +19,7 @@ class UserAdmin(BaseUserAdmin):
 class LoginAdmin(admin.ModelAdmin):
     list_display = ('login_date', 'remote_addr', 'user', 'completed')
     list_filter = ('login_date', 'completed')
-    search_fields = ['remote_addr', 'user__username', 'user__first_name', 'user__last_name']
+    search_fields = ['state', 'remote_addr', 'user__username', 'user__first_name', 'user__last_name']
     readonly_fields = ('state', 'authorization_code', 'login_date', 'remote_addr', 'access_token', 'completed', 'user')
 
     def has_add_permission(self, request):
