@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 
 import uuid
 
-# Create your models here.
-class LoginClaveUnica(models.Model):
+class Login(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     state = models.UUIDField(default=uuid.uuid4)
     login_date = models.DateTimeField(auto_now=False, auto_now_add=True)
     authorization_code = models.CharField(max_length=120)
@@ -14,12 +14,12 @@ class LoginClaveUnica(models.Model):
     completed = models.BooleanField(default=False)
 
     class Meta:
-        verbose_name_plural ='Login Clave Unica'
+        verbose_name_plural ='Login'
 
     def __str__(self):
-        return str(self.state)
+        return str(self.state) + ' | ' +  str(self.login_date) + (' | ' + str(self.user) if self.user is not None else '')
 
-class PersonClaveUnica(models.Model):
+class Person(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     run_type = models.CharField(max_length=50)
     run_num = models.IntegerField()
