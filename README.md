@@ -7,12 +7,24 @@ Aplicación Djando que permite la autenticación de los ciudadanos de Chile.
 [![GitHub license](https://img.shields.io/github/license/gatosnake/django-clave-unica.svg)](https://github.com/GatoSnake/django-clave-unica/blob/master/LICENSE)
 [![Github all releases](https://img.shields.io/github/downloads/gatosnake/django-clave-unica/total.svg)](https://github.com/GatoSnake/django-clave-unica/releases/)
 
+## Codigo Fuente
 
+El código fuente de la aplicación lo puedes obtener de la siguiente url en Github:
+https://github.com/GatoSnake/django-clave-unica
+
+Si esta aplicación te fue de ayuda, no dudes en compartirlo y hacermelo saber. :blush: :beers:
+
+Además, esta abierto para que hagan sus pull requests en casos de realizar mejoras al código. :sunglasses:
 
 ## Instalación
 
-1. Agrega la aplicación `clave_unica_auth` en el parámetro INSTALLED_APPS de tu archivo `settings.py`, 
-de la siguiente manera:\
+1. Descarga e instala el paquete utilizando `pipenv` o `pip` de la siguiente manera:
+```
+pip install django-clave-unica
+```
+
+2. Agrega la aplicación `clave_unica_auth` en el parámetro INSTALLED_APPS de tu archivo `settings.py`, 
+de la siguiente manera:
 ```python
 INSTALLED_APPS = [
 	...
@@ -20,15 +32,17 @@ INSTALLED_APPS = [
 ]
 ```
 
-2. Incluir las credenciales de la aplicación para la autenticación de los usuarios. Como parámetros mínimos, debe ingresar en el archivo `settings.py` lo siguiente:
+3. Incluir las credenciales de la aplicación para la autenticación de los usuarios. Como parámetros mínimos, debe ingresar en el archivo `settings.py` lo siguiente:
 ```python
-CLAVEUNICA_CLIENT_ID = 'client_id'
-CLAVEUNICA_CLIENT_SECRET = 'client_secret'
-CLAVEUNICA_REDIRECT_URI = 'redirect_uri'
+CLAVE_UNICA = {
+    'CLIENT_ID': 'client_id',
+    'CLIENT_SECRET': 'client_secret',
+    'REDIRECT_URI': 'redirect_uri',
+}
 ```
 **Para obtener tus credenciales de integración con Clave Única, accede a https://claveunica.gob.cl/institucional.**
 
-3. Incluye la ruta de autenticación Clave Única en el archivo `urls.py` de tu proyecto, 
+4. Incluye la ruta de autenticación Clave Única en el archivo `urls.py` de tu proyecto, 
 de la siguiente manera:
 ```python
 urlpatterns = [
@@ -38,13 +52,13 @@ urlpatterns = [
 ]
 ```
 
-4. Ejecutar `python manage.py migrate` para migrar el modelo de personas de Clave Unica a la base de datos.
+5. Ejecutar `python manage.py migrate` para migrar el modelo de personas de Clave Unica a la base de datos.
 
-5. Ejecutar el servidor de desarrollo y acceder a http://127.0.0.1:8000/claveunica/login para realizar el proceso de autenticación.
+6. Ejecutar el servidor de desarrollo y acceder a http://127.0.0.1:8000/claveunica/login para realizar el proceso de autenticación.
 
 ## Funcionamiento
 
-1. Cuando un usuario pretende iniciar sesión contra Clave Única, el sistema lo redirige al portal de autenticación creando para esa sesion de autenticación un parámetro llamado `state` en formato UUIDv4, en el cual dura 30 minutos. 
+1. Cuando un usuario iniciar sesión contra Clave Única, el sistema lo redirige al portal de autenticación creando para esa sesion de autenticación un parámetro llamado `state` en formato UUIDv4, en el cual dura 30 minutos y se guarda en el cache por defecto de Django. 
 2. Si las credenciales del usuario son correctas, Clave Única redirige nuevamente al usuario a la aplicación a través de una URL callback que es registrada por el dueño de la aplicación en en registro de instituciones de clave Única (https://claveunica.gob.cl/institucional).
 3. El sistema verifica el parametro `state`, si no ha expirado entonces verifica si el usuario existe en base de datos. En caso de no existir lo crea automaticamente y lo dirige a la vista ya autenticada.
 
@@ -53,7 +67,7 @@ A nivel de base de datos, la estructura de los datos esta compuesta de la siguie
 * La información de la persona, como el RUN y el DV esta guardada en la tabla `clave_unica_auth_person`, en el cual esta asociada a la tabla de usuarios de Django.
 * La tabla `clave_unica_auth_login` posee el registro de todos los intentos de inicios de sesión. En ella se guarda la fecha, dirección IP remoto, el parámetro state, el resultado de la autenticación y el usuario asociado si este existe en BD.
 
-## Otras opciones
+## Otras configuraciones
 
 ### CLAVEUNICA_URL_LOGIN
 Url de login en Clave Única.
@@ -122,3 +136,10 @@ Path archivo error html.
 Type: string
 Default:  clave_unica_auth/error.html
 ```
+
+## Changelog
+
+* **1.0.1** [14/07/19]
+	* Se cambia la configuracion Clave Única a tipo diccionario en settings.py.
+* **1.0.0** [07/07/19]
+	* Permite la autenticación de los usuarios via Clave Única.

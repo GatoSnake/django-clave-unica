@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 
-from clave_unica_auth import settings as cu_settings
+from clave_unica_auth import settings as claveunica_settings
 
 def index(request):
     return render(request, 'index.html')
@@ -12,8 +12,8 @@ def index(request):
 @login_required
 def home(request):
     context = {}
-    if not cu_settings.get('CLAVEUNICA_REMEMBER_LOGIN'):
-        context = {'url_logout': cu_settings.get('CLAVEUNICA_URL_LOGOUT')}
+    if not claveunica_settings.get('REMEMBER_LOGIN'):
+        context = {'url_logout': claveunica_settings.get('URL_LOGOUT')}
     return render(request, 'home.html', context)
 
 def logout(request):
