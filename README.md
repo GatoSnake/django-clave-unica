@@ -2,6 +2,10 @@
 
 Aplicación Djando que permite la autenticación de los ciudadanos de Chile.
 
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/django-clave-unica.svg)
+![PyPI - Django Version](https://img.shields.io/pypi/djversions/django-clave-unica.svg)
+![PyPI - Format](https://img.shields.io/pypi/format/django-clave-unica.svg)
+
 [![GitHub release](https://img.shields.io/github/release/gatosnake/django-clave-unica.svg)](https://github.com/GatoSnake/django-clave-unica/releases/)
 [![GitHub tag](https://img.shields.io/github/tag/gatosnake/django-clave-unica.svg)](https://github.com/GatoSnake/django-clave-unica/tags/)
 [![GitHub license](https://img.shields.io/github/license/gatosnake/django-clave-unica.svg)](https://github.com/GatoSnake/django-clave-unica/blob/master/LICENSE)
