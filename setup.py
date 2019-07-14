@@ -18,6 +18,7 @@ setup(
     url='https://github.com/GatoSnake',
     author='Cristhian Won',
     author_email='cristhian.won@gmail.com',
+    long_description_content_type="text/markdown",
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',

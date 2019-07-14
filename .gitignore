@@ -1,3 +1,4 @@
+build
 dist
 Pipfile.lock
 *.egg-info
