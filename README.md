@@ -1,6 +1,6 @@
 # Django Clave Unica
 
-Aplicación Djando que permite la autenticación de los ciudadanos de Chile.
+Aplicación Django que permite la autenticación de los ciudadanos de Chile.
 
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/django-clave-unica.svg)
 ![PyPI - Django Version](https://img.shields.io/pypi/djversions/django-clave-unica.svg)
